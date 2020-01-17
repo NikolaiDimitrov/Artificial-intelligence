@@ -218,9 +218,6 @@ bool getGenes(int* firstParrent,int* secondParrent,int* firstParrentGenes,int* s
 void cycleCrossover(Individual parent1,Individual parent2,int* child1,int* child2)
 {
 	bool reverseChildrens = true;
-	//cout << "P1: " << parent1;
-	//cout << "P2: " << parent2;
-	
 	for(int i = 0;i < Individual::size;i++)
 	{
 		if(reverseChildrens)
@@ -228,20 +225,63 @@ void cycleCrossover(Individual parent1,Individual parent2,int* child1,int* child
 		else
 			reverseChildrens = getGenes(parent1.arr,parent2.arr,child2,child1,i,reverseChildrens);
  	}
-
-	/*cout << "Child1: " << endl;
-	for(int i = 0;i<6;i++)
-	{
-		cout << child1[i];
-	}
-	cout << endl << "Child2: " << endl;
-	for(int i = 0;i<6;i++)
-	{
-		cout << child2[i];
-	}*/
 }
+void onePointCrossover(Individual parent1,Individual parent2,int* child1,int* child2)
+{
+	int randomNumber = rand() % Individual::size;
+	bool flag = true;
+	for (int i = 0; i < randomNumber; ++i)
+	{
+		child1[i] = parent1.arr[i];
+		child2[i] = parent2.arr[i];
+	}
+	for (int i = randomNumber,index = 0;i < Individual::size; i++,index++)
+	{
+		for (int k = 0; k < i; k++)
+		{
+			if(parent2.arr[index] == child1[k])
+			{
+				flag = false;
+				break;
+			}
+		}
+		if(flag)
+		{
+			child1[i] = parent2.arr[index];
+		}
+		else
+		{
+			flag = true;
+		}
+	}
+	for (int i = randomNumber,index = 0;i < Individual::size; i++,index++)
+	{
+		for (int k = 0; k < i; k++)
+		{
+			if(parent1.arr[index] == child2[k])
+			{
+				flag = false;
+				break;
+			}
+		}
+		if(flag)
+			child2[i] = parent1.arr[index];
+		else
+			flag = true;
+	}
+}
+void mutation(Individual* i)
+{
+		int randomGene = rand() % Individual::size,secondGene = 0;
+		do
+		{
+			secondGene = rand() % Individual::size;
 
-
+		}while(randomGene == secondGene);
+		int tmp = i->arr[randomGene];
+		i->arr[randomGene] = i->arr[secondGene];
+		i->arr[secondGene] = tmp;
+}
 
 void geneticSearch(Individual* population,int size,int* target)
 {
@@ -309,5 +349,19 @@ int main()
 	{
 		cout << population[i];
 	}
+	// int arr[10];
+	// int arr2[10];
+	// int asd[10] = {1,2,3,4,5,6,7,8,9,10};
+	// int asd2[10] = {10,9,8,7,6,5,4,3,2,1};
+	// onePointCrossover(asd,asd2,arr,arr2);
+	// for (int i = 0; i < 10; ++i)
+	// {
+	// 	cout << arr[i] << " ";
+	// }
+	// cout << endl;
+	// /*for (int i = 0; i < 10; ++i)
+	// {
+	// 	cout << arr2[i] << " ";
+	// }*/
 	return 0;
 }	
