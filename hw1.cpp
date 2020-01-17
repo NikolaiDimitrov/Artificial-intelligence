@@ -172,13 +172,15 @@ int main(int argc, char const* argv[])
         if (!board[i])
             zeroPosition = i + 1;
     }
-    target[finalZero - 1] = 0;
+    target[n*n-1] = 0;
     Node root(n, zeroPosition);
     root.setBoard(board);
     root.calculateManhattan();
     root.printBoard();
     bool flag = false;
+    
     vector<string> printArr;
+
     for (int i = 0; i < root.manhatan + 300; ++i) {
         search(n, &root, target, i, 0, flag, printArr, path);
         if (flag) {
