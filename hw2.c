@@ -39,11 +39,18 @@ int main(){
     // print_board(n,board);
     int i = 0;
     t = clock();
-    while(i<3*n){
-    	if (check_for_conflicts_on_board(n,queens_indices,board) == 0 ){
-			printf("Soved!\n");
+    int conflicts_on_board = n-1;
+
+    do{
+        conflicts_on_board = check_for_conflicts_on_board(n,queens_indices,board);
+    	if (conflicts_on_board == 0 ){
+			printf("\nSolved!\n");
 			break;
 		}
+        if(i == n*3){
+            board = generate_board(n,queens_indices);
+        }
+
 		int queen_with_max_conflicts = get_queen_with_max_conflicts(n, queens_indices, board);
 		// int queen_with_max_conflicts = get_random_queen(n,queens_indices);
 		// printf("Qeeen with max conflicts %d\n", queen_with_max_conflicts);
@@ -53,10 +60,10 @@ int main(){
 		// printf("Best new index will be %d \n",  best_new_index);
 		// print_board(n,board);
 		switch_queen_position(n,queen_with_max_conflicts, best_new_index,queens_indices, board);
-		print_board(n,board);
+		// print_board(n,board);
 	 	i++;
-
-	}
+        // printf("+");
+	}while(conflicts_on_board != 0);
 	t = clock() - t;
 	double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds 
     printf("the algorithm took %f seconds to execute \n", time_taken); 
@@ -69,7 +76,7 @@ int main(){
 //    printf("Right Diagonal = %d\n",conflicts_on_right_diagonal(n,queens_indices[0],board));
 //    printf("Total number of conflicts %d\n", check_for_conflicts(n,queens_indices[0],board));
 
-    print_board(n,board);
+    // print_board(n,board);
 	free(board);
     return 0;
 }
