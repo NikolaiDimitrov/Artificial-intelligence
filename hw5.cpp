@@ -86,8 +86,8 @@ bool makeSuggestion(vector<Data> data,vector<string> attributes,int demoCounter,
 	{
 		if(attributes[attrIndex] == "y")
 		{
-			repProb *= log2(data[i].probYY);
-			demProb *= log2(data[i].probNY);
+			repProb += log2(data[i].probYY);
+			demProb += log2(data[i].probNY);
 		}
 		else if(attributes[attrIndex] == "n")
 		{
